@@ -16,6 +16,8 @@ namespace Repository.Contracts
         T Get(Expression<Func<T, bool>> expression = null);
         T Remove(Expression<Func<T, bool>> expression = null);
         IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(string search);
+
 
     }
 }

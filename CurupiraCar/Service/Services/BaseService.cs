@@ -38,9 +38,9 @@ namespace Service.Services
 
         public virtual IEnumerable<T> Get() => _repository.GetAll();
 
-        public T Get(Expression<Func<T, bool>> expression = null)
+        public IEnumerable<T> Get(string search)
         {
-            throw new NotImplementedException();
+            return _repository.GetAll(search);
         }
 
         public virtual T Post<V>(T obj) where V : AbstractValidator<T>
@@ -54,9 +54,7 @@ namespace Service.Services
         public virtual T Put<V>(T obj) where V : AbstractValidator<T>
         {
             Validate(obj, Activator.CreateInstance<V>());
-
-            _repository.Update(obj);
-            return obj;
+            return _repository.Update(obj); 
         }
 
         private void Validate(T obj, AbstractValidator<T> validator)

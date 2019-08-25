@@ -16,30 +16,37 @@ namespace CurupiraCarAPI.Controllers
         public ApoliceSeguroController(IApoliceSeguroService apoliceSeguroService)
         {
             _service = apoliceSeguroService;
-            
+
         }
         // GET: api/ApoliceSeguro
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery]string search)
         {
             try
             {
-                return new ObjectResult(_service.Get());
+                if (string.IsNullOrEmpty(search))
+                {
+                    return new ObjectResult(_service.Get());
+                }
+                else
+                {
+                    return new ObjectResult(_service.Get(search));
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
-            
+
         }
 
         // GET: api/ApoliceSeguro/5
-        [HttpGet("{numeroApolice}", Name = "Get")]
-        public IActionResult Get(double numeroApolice)
+        [HttpGet("{id}", Name = "Get")]
+        public IActionResult Get(int id)
         {
             try
             {
-                return new ObjectResult(_service.GetByNumeroApolice(numeroApolice));
+                return new ObjectResult(_service.Get(id));
             }
             catch (ArgumentException ex)
             {
@@ -50,6 +57,8 @@ namespace CurupiraCarAPI.Controllers
                 return BadRequest(ex);
             }
         }
+
+
 
         // POST: api/ApoliceSeguro
         [HttpPost]
@@ -89,12 +98,13 @@ namespace CurupiraCarAPI.Controllers
         }
 
         // DELETE: api/ApoliceSeguro/5
-        [HttpDelete("{numeroApolice}")]
-        public IActionResult Delete(double numeroApolice)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                return new ObjectResult(_service.RemoveByNumeroApolice(numeroApolice));
+                _service.Delete(id);
+                return new NoContentResult();
             }
             catch (ArgumentException ex)
             {
