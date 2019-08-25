@@ -22,5 +22,17 @@ namespace Domain.Model
         /// Valor do premio da apolice
         /// </summary>
         public decimal ValorPremio { get; set; }
+
+        public override string ToString()
+        {
+            var list = new List<string> {
+                Id.ToString().ToLowerInvariant(),
+                NumeroApolice.ToString().ToLowerInvariant(),
+                IdentificacaoSegurado.ToLowerInvariant(),
+                PlacaVeiculo.ToLowerInvariant(),
+                ValorPremio.ToString().ToLowerInvariant()
+            };
+            return string.Join(";",list);
+        }
     }
 }

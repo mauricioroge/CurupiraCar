@@ -40,9 +40,9 @@ namespace Repository.Repositories
 
         public virtual T Update(T obj)
         {
-            _baseContext.Entry(obj).State = EntityState.Modified;
+            dbSet.Update(obj);
             _baseContext.SaveChanges();
-            return obj;
+            return Get(obj.Id);
         }
 
         public virtual T Get(int id)
@@ -67,6 +67,20 @@ namespace Repository.Repositories
             var item = dbSet.Remove(Get(expression));
             _baseContext.SaveChanges();
             return item.Entity;
+        }
+        public IEnumerable<T> GetAll(string search)
+        {
+            var fields = dbSet.ToList();
+            var valores = new List<T>();
+            foreach (var item in fields)
+            {
+                if (item.ToString().Contains(search.ToLowerInvariant()))
+                {
+                    valores.Add(item);
+                }
+            }
+            return valores;
+           
         }
     }
 }

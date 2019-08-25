@@ -14,5 +14,6 @@ namespace Service.Contracts
         void Delete(int id);
         T Get(int id);
         IEnumerable<T> Get();
+        IEnumerable<T> Get(string search);
     }
 }

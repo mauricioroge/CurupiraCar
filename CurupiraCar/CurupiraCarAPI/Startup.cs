@@ -32,7 +32,12 @@ namespace CurupiraCarAPI
             services.AddSingleton(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IApoliceSeguroService,ApoliceSeguroService>();
             services.AddScoped<IApoliceSeguroRepository, ApoliceSeguroRepository>();
-
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -53,8 +58,10 @@ namespace CurupiraCarAPI
                 var context = serviceScope.ServiceProvider.GetRequiredService<MySqlContext>();
                 context.Database.EnsureCreated();
             }
+            app.UseCors("MyPolicy");
             app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 }

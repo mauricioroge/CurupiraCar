@@ -21,7 +21,7 @@ namespace Repository.EntitiesConfig
             builder.Property(c => c.PlacaVeiculo).IsRequired();
             builder.Property(c => c.ValorPremio).IsRequired();
 
-            builder.HasIndex(c => c.NumeroApolice).HasName("UK_ApoliceSeguro_NumeroApolice");
+            builder.HasIndex(c => c.NumeroApolice).HasName("UK_ApoliceSeguro_NumeroApolice").IsUnique();
         }
     }
 }
